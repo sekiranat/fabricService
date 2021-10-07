@@ -24,7 +24,7 @@ export default function App() {
     React.useEffect(() => {
       fabricService.initCanvas(canvasRef.current);
       fabricService.canvas.on('mouse:move', function () {
-        //setData() // здесь происходит перерендер
+        setData(canvas.toJSON())
       });
     }, []);
 
