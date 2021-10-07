@@ -4,16 +4,14 @@ import './style.css'
 export const Form = (props) => {
     
     const {
-        data,
         onInitData,
         onAddSquare,
         onIncreaseObject,
         onDecreaseObject,
         onDeleteObject,
         onClearObjects,
+        onChangeColor
     } = props
-
-    const jsonData = JSON.stringify(data)
 
     return ( 
         <div className="form-wrapper__btns">
@@ -32,6 +30,10 @@ export const Form = (props) => {
             <Button
                 onClick={onDecreaseObject}
                 text='Decrease width'
+            />
+            <Button
+                onClick={onChangeColor}
+                text='Change color'
             />
             <Button
                 onClick={onDeleteObject}

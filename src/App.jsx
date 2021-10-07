@@ -24,7 +24,7 @@ export default function App() {
     React.useEffect(() => {
       fabricService.initCanvas(canvasRef.current);
       fabricService.canvas.on('mouse:move', function () {
-        setData(canvas.toJSON())
+       // setData(fabricService.canvas.toJSON())
       });
     }, []);
 
@@ -54,8 +54,7 @@ export default function App() {
   const increaseObject = ()=> {
     const object = fabricService.canvas.getActiveObject()
     if (object) {
-      object.width = object.width + 50 < 0 ? 5 : object.width + 50
-      object.cacheWidth = object.width
+      object.set("width", object.width + 50 < 0 ? 5 : object.width + 50);
       fabricService.canvas.renderAll()
     }
   }
@@ -63,8 +62,17 @@ export default function App() {
   const decreaseObject = () => {
     const object = fabricService.canvas.getActiveObject()
     if (object) {
-      object.width = object.width - 50 < 0 ? 5 : object.width - 50
-      object.cacheWidth = object.width
+      object.set("width", object.width - 50 < 0 ? 5 : object.width - 50);
+      fabricService.canvas.renderAll()
+    }
+  }
+
+  const changeColor = () => {
+    const object = fabricService.canvas.getActiveObject()
+    console.log(object)
+    if (object) {
+      const color = "#" + ((1 << 24) * Math.random() | 0).toString(16)
+      object.set("fill", color);
       fabricService.canvas.renderAll()
     }
   }
@@ -84,7 +92,6 @@ export default function App() {
   return <>
     <div className="form-wrapper">
       <JsonArea
-        canvas={fabricService.canvas}
         data={data}
       />
       <Form
@@ -94,6 +101,7 @@ export default function App() {
         onDecreaseObject={decreaseObject}
         onDeleteObject={deleteObject}
         onClearObjects={clearObjects}
+        onChangeColor={changeColor}
       />
       <Canvas />
     </div>
