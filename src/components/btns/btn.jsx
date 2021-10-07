@@ -1,3 +1,5 @@
+import './style.css'
+
 export const Button = (props) => {
 
     const {
@@ -7,7 +9,7 @@ export const Button = (props) => {
 
     return (
             <div className="form-wrapper__btns">
-            <button onClick={onClick}>{text}</button>
+                <button className="button" onClick={onClick}>{text}</button>
             </div>
     )
 }
