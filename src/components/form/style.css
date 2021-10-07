@@ -1,0 +1,22 @@
+.form-wrapper {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-wrapper textarea {
+    margin-top: 20px;
+    width: 600px;
+    height: 200px;
+}
+
+.form-wrapper__btns {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-wrapper__btns button {
+    margin: 0 5px;
+}

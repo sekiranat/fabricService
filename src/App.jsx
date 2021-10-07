@@ -1,49 +1,68 @@
 import React, {useState} from 'react';
 import { fabric } from "fabric";
 import { getData, initialJSON } from './services/getData.js'
-import Form from './components/Form'
+import { Form } from './components/form'
+import './app.css'
 
-const App = () => {
+export default function App() {
+  const [data, setData] = useState("");
 
-  const [canvas, setCanvas] = useState(null);
+  const canvasRef = React.useRef(null);
+  let canvasFabric
 
-  const fabricService = {
-    initCanvas(canvasEl) {
-      this.canvas = new fabric.Canvas(canvasEl);
-    }
-  }
 
-  const Canvas = ({width = 600, height = 600}) => {
-    const canvasRef = React.useRef(null);
 
-    React.useEffect(() => {
-      fabricService.initCanvas(canvasRef.current);
-      console.log(fabricService)
-      setCanvas(fabricService.canvas)
-    }, []);
+  React.useEffect(() => {
+    fabricInit(canvasRef.current)
+  }, []);
 
-    return <canvas ref={canvasRef} width={width} height={height}/>
+  const fabricInit = (canvasEl) => {
+    canvasFabric = new fabric.Canvas(canvasEl);
+    canvasFabric.on('mouse:move', function () {
+      updateJson()
+    });
   }
 
   const initData = () => {
-    const canvaasdass =  fabricService.canvas
     const objects = getData()
     objects.forEach((object) => {
-        const rect = new fabric.Rect(object);  
-        canvas.add(rect)
+      const rect = new fabric.Rect(object);
+      canvasFabric.add(rect)
     })
-    canvaasdass.on('mouse:down', function(options) {
-      console.log(options);
+
+
+  }
+
+  const updateJson = () => {
+    setData(canvasFabric.toJSON())
+  }
+
+  const addSquare = () => {
+    const rect = new fabric.Rect({
+      width: 50,
+      height: 70,
+      fill: "green",
+      angle: 145,
+      top: 350,
+      left: 400
     });
+    canvasFabric.add(rect);
+  }
+
+  const resizeObject = ()=> {
+    const object = canvasFabric.getActiveObject()
+    console.log(object)
+    object.width = 500
+    canvasFabric.renderAll()
   }
 
   return <>
     <Form
-      onClick = {initData}
-      initialJSON ={initialJSON}
+      onInitData={initData}
+      onAddSquare={addSquare}
+      onResizeObject={resizeObject}
+      data={data}
     />
-    <Canvas/>
+    <canvas ref={canvasRef}  width={600} height={600} />
   </>
 }
-
-export default App;
